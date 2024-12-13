@@ -106,27 +106,27 @@
 								<?php endif ?>
 								</h4>
 								<div class="pull-right">
-									<button data-toggle="tooltip" title="<?php echo $button_add; ?>" class="btn btn-success add" data-route="<?php echo $group_id ?>"><i class="fa fa-plus"></i></button>
+									<button data-toggle="tooltip" title="<?php echo $button_add; ?>" class="btn btn-success btn-sm add" data-route="<?php echo $group_id ?>"><i class="fa fa-plus"></i></button>
 								</div>
 							</div>
 							<table class="ct-group-content">
 								<tbody>
+								<?php $sort_order = 1 ?>
 								<?php foreach ($group_data['items'] as $item_id => $item_data): ?>
 									<tr class="ct-group-item" id="ct-row-<?php echo $module_row ?>" data-module-row="<?php echo $module_row ?>">
-										
 										<td width="auto" class="description">
+										<span class="btn-sm sort-handle"><i class="fa fa-arrows-v"></i></span>
 										<?php echo $item_data['description'] ?>
 										</td>
-										<td width="10">
-											<button data-toggle="tooltip" title="" class="btn btn-primary edit" data-original-title="<?php echo $text_edit ?>" data-module-row="<?php echo $module_row ?>"><i class="fa fa-pencil"></i></button>
+										<td width="80">
+											<button data-toggle="tooltip" title="" class="btn btn-primary btn-sm edit" data-original-title="<?php echo $text_edit ?>" data-module-row="<?php echo $module_row ?>"><i class="fa fa-pencil"></i></button>
+											<button data-toggle="tooltip" title="" class="btn btn-danger btn-sm remove" data-original-title="<?php echo $button_remove ?>"><i class="fa fa-trash"></i></button>
 											<input type="hidden" name="custom_template[<?php echo $module_row ?>][value]" value="<?php echo $item_data['value'] ?>">
 											<input type="hidden" name="custom_template[<?php echo $module_row ?>][route]" value="<?php echo $group_id ?>">
+											<input type="hidden" name="custom_template[<?php echo $module_row ?>][sort_order]" value="<?php echo $sort_order ?>">
 										</td>
-										<td width="10">
-											<button data-toggle="tooltip" title="" class="btn btn-danger remove" data-original-title="<?php echo $button_remove ?>"><i class="fa fa-trash"></i></button>
-										</td>
-										
 									</tr>
+								<?php $sort_order++; ?>
 								<?php $module_row++; ?>
 								<?php endforeach ?>
 								</tbody>

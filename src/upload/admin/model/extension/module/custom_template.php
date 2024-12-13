@@ -10,6 +10,7 @@ class ModelExtensionModuleCustomTemplate extends Model {
 			`custom_template_id` int(11) NOT NULL AUTO_INCREMENT, 
 			`route` varchar(64) NOT NULL, 
 			`data` text NOT NULL, 
+			`sort_order` int(11) DEFAULT 0,
 			PRIMARY KEY (`custom_template_id`), 
 			KEY `route` (`route`)
 		) ENGINE=MyISAM DEFAULT CHARSET=utf8;");
@@ -25,14 +26,14 @@ class ModelExtensionModuleCustomTemplate extends Model {
 	}
 
 	public function getCustomTemplates() {
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "custom_template`");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "custom_template` ORDER BY sort_order");
 		return $query->rows;
 	}
 
 	public function saveCustomTemplates($data) {
 		$this->db->query("TRUNCATE TABLE `" . DB_PREFIX . "custom_template`");
 		foreach ($data as $item) {
-			$this->db->query("INSERT INTO `" . DB_PREFIX . "custom_template` SET `route` = '" . $this->db->escape($item['route']) . "', `data` = '" . $this->db->escape($item['value']) . "'");
+			$this->db->query("INSERT INTO `" . DB_PREFIX . "custom_template` SET `route` = '" . $this->db->escape($item['route']) . "', `data` = '" . $this->db->escape($item['value']) . "', `sort_order` = " . (int)$item['sort_order']);
 		}
 	}
 

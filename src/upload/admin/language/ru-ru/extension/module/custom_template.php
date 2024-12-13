@@ -150,5 +150,4 @@ $_['entry_cart_products_addon2']  = 'до';
 $_['text_success']                = 'Настройки модуля успешно сохранены.';
 
 // Error
-$_['error_permission']            = 'У Вас нет прав для изменения модуля персонализованных шаблонов!';
-$_['error_max_input_vars']        = 'Превышен лимит <a href="http://devjew.com/2014/05/16/unknown-input-variables-exceeded-1000-opencart/" target="_blank">max_input_vars</a>';
+$_['error_permission']            = 'У Вас нет прав для изменения модуля Custom templates Pro!';
