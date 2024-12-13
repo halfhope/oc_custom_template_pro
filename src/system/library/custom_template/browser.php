@@ -1,6 +1,6 @@
 <?php
 
-namespace Opencart\Extension\Custom_template\System\Library\Custom_template;
+namespace Opencart\Extension\Custom_template_pro\System\Library\Custom_template;
 /**
  * File: Browser.php
  * Author: Chris Schuld (http://chrisschuld.com/)

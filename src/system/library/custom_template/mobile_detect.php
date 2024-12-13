@@ -1,6 +1,6 @@
 <?php
 
-namespace Opencart\Extension\Custom_template\System\Library\Custom_template;
+namespace Opencart\Extension\Custom_template_pro\System\Library\Custom_template;
 /**
  * Mobile Detect Library
  * Motto: "Every business should have a mobile detection script to detect mobile readers"

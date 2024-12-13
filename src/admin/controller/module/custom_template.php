@@ -2,14 +2,16 @@
 /**
  * @author Shashakhmetov Talgat <talgatks@gmail.com>
  */
-namespace Opencart\Admin\Controller\Extension\CustomTemplate\Module;
-class CustomTemplate extends \Opencart\System\Engine\Controller {
-	private $error = [];
 
-	private $_version 		= '1.1';
+namespace Opencart\Admin\Controller\Extension\CustomTemplatePro\Module;
+class CustomTemplate extends \Opencart\System\Engine\Controller {
+	
+	public 	$_route 		= 'extension/custom_template_pro/module/custom_template';
+	public 	$_model 		= 'model_extension_custom_template_pro_module_custom_template';
+	private $_version 		= '1.2';
 	private $_name 			= 'Custom templates Pro';
-	public 	$_route 		= 'extension/custom_template/module/custom_template';
-	public 	$_model 		= 'model_extension_custom_template_module_custom_template';
+
+	private $error = [];
 
 	public function install():void {
 		$this->load->model($this->_route);
@@ -46,12 +48,13 @@ class CustomTemplate extends \Opencart\System\Engine\Controller {
 		$this->document->setTitle($this->language->get('heading_title'));
 		
 		$data['heading_title'] = $this->language->get('heading_title');
+		$data['version'] = $this->_version;
 
-		$this->document->addScript('/extension/custom_template/admin/view/javascript/custom_template.js?' . $this->_version);
-		$this->document->addStyle('/extension/custom_template/admin/view/javascript/custom_template.css?' . $this->_version);
+		$this->document->addScript('/extension/custom_template_pro/admin/view/javascript/custom_template.js?' . $this->_version);
+		$this->document->addStyle('/extension/custom_template_pro/admin/view/javascript/custom_template.css?' . $this->_version);
 
-		$this->document->addScript('/extension/custom_template/admin/view/javascript/Sortable.js');
-		$this->document->addScript('/extension/custom_template/admin/view/javascript/jquery-sortable.js');
+		$this->document->addScript('/extension/custom_template_pro/admin/view/javascript/Sortable.js');
+		$this->document->addScript('/extension/custom_template_pro/admin/view/javascript/jquery-sortable.js');
 		
 		$data['user_token'] = $this->session->data['user_token'];
 		
@@ -139,14 +142,17 @@ class CustomTemplate extends \Opencart\System\Engine\Controller {
 				$events[$value['route']] = [
 					'code' 		=> 'ctm_' . substr(md5(http_build_query($value)), 4),
 					'trigger'	=> 'catalog/view/' . $value['route'] . '/before',
-					'action'	=> '|filter'
+					'action'	=> $this->_route . '.filter',
+					'description'	=> '',
+					'status' 	=> 1,
+					'sort_order' => 1
 				];
 			}
 
 			$this->load->model('setting/event');
 			foreach($events as $event) {
-				if(!$result = $this->model_setting_event->getEventByCode($event['code'], $event['trigger'], $this->_route . $event['action'])) {
-					$this->model_setting_event->addEvent($event['code'], '', $event['trigger'], $this->_route . $event['action']);
+				if(!$result = $this->model_setting_event->getEventByCode($event['code'])) {
+					$this->model_setting_event->addEvent($event);
 				}
 			}
 

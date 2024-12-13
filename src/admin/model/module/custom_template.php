@@ -2,7 +2,8 @@
 /**
  * @author Shashakhmetov Talgat <talgatks@gmail.com>
  */
-namespace Opencart\Admin\Model\Extension\CustomTemplate\Module;
+
+namespace Opencart\Admin\Model\Extension\CustomTemplatePro\Module;
 class CustomTemplate extends \Opencart\System\Engine\Model {
 
 	public function install():void {

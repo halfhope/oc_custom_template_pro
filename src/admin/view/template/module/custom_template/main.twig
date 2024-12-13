@@ -18,7 +18,7 @@
 	<div class="container-fluid">
 		<div class="panel panel-default">
 			<div class="card">
-			<div class="card-header"><i class="fas fa-pencil-alt"></i> {{ text_list }}</div>
+			<div class="card-header"><i class="fas fa-pencil-alt"></i> {{ text_list }} <span class="float-end">v{{ version }}</span></div>
 			<div class="card-body">
 				<form action="{{ action }}" method="post" enctype="multipart/form-data" data-oc-toggle="ajax" id="fmcc" class="form-horizontal">
 					{% set module_row = 0 %}
