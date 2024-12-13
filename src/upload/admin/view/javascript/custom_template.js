@@ -55,7 +55,7 @@ var getDescription = function(val, overwrite) {
 				module_row: module_row
 			},
 			success: function(response) {
-				$('#ct-row-' + module_row).find('td.description').html(response.description);
+				$('#ct-row-' + module_row).find('td.description').html('<span class="btn-sm sort-handle"><i class="fa fa-arrows-v"></i></span>' + response.description);
 			},
 			error: function(err) {
 				alert(err.responseText);
@@ -144,7 +144,7 @@ var addCtGroup = function(route) {
 		html += '		&nbsp;<a tabindex="0" data-toggle="popover" title="" data-trigger="focus" data-html="true" data-content="" class="label label-primary"><i class="fa fa-info"></i></a>';
 		html += '		</h4>';
 		html += '		<div class="pull-right">';
-		html += '			<button data-toggle="tooltip" title="' + ct_data.lang.button_add + '" class="btn btn-success add" data-route="' + route + '"><i class="fa fa-plus"></i></button>';
+		html += '			<button data-toggle="tooltip" title="' + ct_data.lang.button_add + '" class="btn btn-success btn-sm add" data-route="' + route + '"><i class="fa fa-plus"></i></button>';
 		html += '		</div>';
 		html += '	</div>';
 		html += '	<table class="ct-group-content">';
@@ -156,7 +156,8 @@ var addCtGroup = function(route) {
 
 		$ct_group = $('#fmcc .ct-group[data-route="' + route + '"]');
 		$ct_group.find('button.add[data-route]').on('click', buttonAddTrigger);
-
+		initSortable();
+		
 		getFoundMods(route);
 
 		return $ct_group;
@@ -166,18 +167,19 @@ var addCtGroup = function(route) {
 var addCtGroupItem = function($ct_group) {
 	var $container = $ct_group.find('.ct-group-content>tbody');
 	var route = $ct_group.data('route');
+	var sort_order = $ct_group.find('.ct-group-item').length + 1;
 	html = '';
 	html += '<tr class="ct-group-item" id="ct-row-' + module_row + '" data-module-row="' + module_row + '">';
 	html += '	<td width="auto" class="description">';
+	html += '		<span class="btn-sm sort-handle"><i class="fa fa-arrows-v"></i></span>';
 	html += '		<span class="label label-warning">' + ct_data.lang.text_output_notset + '</span>';
 	html += '	</td>';
-	html += '	<td width="10">';
-	html += '		<button data-toggle="tooltip" title="" class="btn btn-primary edit" data-original-title="' + ct_data.lang.text_edit + '" data-module-row="' + module_row + '"><i class="fa fa-pencil"></i></button>';
+	html += '	<td width="80">';
+	html += '		<button data-toggle="tooltip" title="" class="btn btn-primary btn-sm edit" data-original-title="' + ct_data.lang.text_edit + '" data-module-row="' + module_row + '"><i class="fa fa-pencil"></i></button>';
+	html += '		<button data-toggle="tooltip" title="" class="btn btn-danger btn-sm remove" data-original-title="' + ct_data.lang.button_remove + '"><i class="fa fa-trash"></i></button>';
 	html += '		<input type="hidden" name="custom_template[' + module_row + '][value]" value="">';
 	html += '		<input type="hidden" name="custom_template[' + module_row + '][route]" value="' + route + '">';
-	html += '	</td>';
-	html += '	<td width="10">';
-	html += '		<button data-toggle="tooltip" title="" class="btn btn-danger remove" data-original-title="' + ct_data.lang.button_remove + '"><i class="fa fa-trash"></i></button>';
+	html += '		<input type="hidden" name="custom_template[' + module_row + '][sort_order]" value="' + sort_order + '">';
 	html += '	</td>';
 	html += '</tr>';
 	$container.append(html);
@@ -191,6 +193,22 @@ var addCtGroupItem = function($ct_group) {
 	module_row++;
 
 	return $ct_group_item;
+}
+
+var initSortable = function() {
+	$('.ct-group-content > tbody').sortable({
+		handle: '.sort-handle',
+		chosenClass: 'handle-active',
+		animation: 150,
+		group: 'shared',
+		onEnd: function (event) {
+			var orderIndex = 1;
+			$($(event.item).parent().find('input[name*="sort_order"]')).each(function() {
+			$(this).val(orderIndex);
+				orderIndex++;
+			});
+		}
+	});
 }
 
 var modalRoute = function() {
@@ -236,6 +254,9 @@ $(document).ready(function() {
 		}
 	});
 
+	// init Sortable
+	initSortable();
+
 	// edit item on dbl-click
 	$('.ct-group .ct-group-item').on('dblclick', dblClickTrigger);
 
@@ -248,7 +269,6 @@ $(document).ready(function() {
 	$('#mmct-modal').on('hidden.bs.modal', function(e) {
 		$('#fmct').html('<center><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center>');
 	});
-
 	$('#mmct-modal button.save').on('click', function(event) {
 		var $input_template = $('#fmct input[name=template]');
 		if ($input_template.val() == '') {
@@ -262,6 +282,7 @@ $(document).ready(function() {
 		var $module_row_node = $('#fmct input[name=module_row]');
 		var module_row = $module_row_node.val();
 		$('#fmct input[name=module_row]').remove();
+		$('#fmct input[name^=explain]').remove();
 		$.each($('#fmct .auto_disabled'), function(index, val) {
 			if ($(val).val() == 0) {
 				$(val).parent('.input-group').find('select,input').remove();

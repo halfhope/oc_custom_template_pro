@@ -106,26 +106,27 @@
 								{% endif %}
 								</h4>
 								<div class="pull-right">
-									<button data-toggle="tooltip" title="{{ button_add }}" class="btn btn-success add" data-route="{{ group_id }}"><i class="fa fa-plus"></i></button>
+									<button data-toggle="tooltip" title="{{ button_add }}" class="btn btn-success btn-sm add" data-route="{{ group_id }}"><i class="fa fa-plus"></i></button>
 								</div>
 							</div>
 							<table class="ct-group-content">
 								<tbody>
+								{% set sort_order = 1 %}
 								{% for item_id, item_data in group_data['items'] %}
 									<tr class="ct-group-item" id="ct-row-{{ module_row }}" data-module-row="{{ module_row }}">
 										<td width="auto" class="description">
+										<span class="btn-sm sort-handle"><i class="fa fa-arrows-v"></i></span>
 										{{ item_data['description'] }}
 										</td>
-										<td width="10">
-											<button data-toggle="tooltip" title="" class="btn btn-primary edit" data-original-title="{{ text_edit }}" data-module-row="{{ module_row }}"><i class="fa fa-pencil"></i></button>
+										<td width="80">
+											<button data-toggle="tooltip" title="" class="btn btn-primary btn-sm edit" data-original-title="{{ text_edit }}" data-module-row="{{ module_row }}"><i class="fa fa-pencil"></i></button>
+											<button data-toggle="tooltip" title="" class="btn btn-danger btn-sm remove" data-original-title="{{ button_remove }}"><i class="fa fa-trash"></i></button>
 											<input type="hidden" name="custom_template[{{ module_row }}][value]" value="{{ item_data['value'] }}">
 											<input type="hidden" name="custom_template[{{ module_row }}][route]" value="{{ group_id }}">
+											<input type="hidden" name="custom_template[{{ module_row }}][sort_order]" value="{{ sort_order }}">
 										</td>
-										<td width="10">
-											<button data-toggle="tooltip" title="" class="btn btn-danger remove" data-original-title="{{ button_remove }}"><i class="fa fa-trash"></i></button>
-										</td>
-										
 									</tr>
+								{% set sort_order = sort_order + 1 %}
 								{% set module_row = module_row + 1 %}
 								{% endfor %}
 								</tbody>
@@ -138,7 +139,7 @@
 	</div>
 </div>
 <script>
-	var ct_data = {{ ct_data }};
-	var module_row = {{ module_row }};
+var ct_data = {{ ct_data }};
+var module_row = {{ module_row }};
 </script>
 {{ footer }}

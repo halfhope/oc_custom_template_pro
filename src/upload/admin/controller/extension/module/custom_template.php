@@ -7,7 +7,7 @@ class ControllerExtensionModuleCustomTemplate extends Controller {
 	private $error = [];
 	private $modified_files;
 
-	private $_version 		= '1.0';
+	private $_version 		= '1.1';
 	private $_name 			= 'Custom templates Pro';
 	public 	$_route 		= 'extension/module/custom_template';
 	public 	$_model 		= 'model_extension_module_custom_template';
@@ -49,6 +49,9 @@ class ControllerExtensionModuleCustomTemplate extends Controller {
 
 		$this->document->addScript('view/javascript/custom_template.js?' . $this->_version);
 		$this->document->addStyle('view/stylesheet/custom_template.css?' . $this->_version);
+
+		$this->document->addScript('view/javascript/jquery/Sortable.js');
+		$this->document->addScript('view/javascript/jquery/jquery-sortable.js');
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
 			$post_data = isset($this->request->post['custom_template']) ? $this->request->post['custom_template'] : [];
@@ -258,7 +261,7 @@ class ControllerExtensionModuleCustomTemplate extends Controller {
 				break;
 			default:
 				$route_path = array_filter(explode('/', $route));
-				if (count($route_path) > 2) {
+				if (count($route_path) > 2 || $route_path[0] == 'common') {
 					$data['filters'] = [
 						1 => $this->language->get('filter_type1'),
 						2 => $this->language->get('filter_type2'),
@@ -582,20 +585,6 @@ class ControllerExtensionModuleCustomTemplate extends Controller {
 		}
 	}
 
-	private function validate() {
-		if (!$this->user->hasPermission('modify', $this->_route)) {
-			$this->error['warning'] = $this->language->get('error_permission');
-		}
-		if (count($this->request->post, COUNT_RECURSIVE) >= ini_get('max_input_vars')) {
-			$this->error['warning'] = $this->language->get('error_max_input_vars');
-		}
-		if (!$this->error) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
 	private function getModifiedFiles() {
 		if (!isset($this->modified_files)) {
 			$this->modified_files = [];
@@ -669,6 +658,17 @@ class ControllerExtensionModuleCustomTemplate extends Controller {
 			}
 		}
 		return $this->modified_files;
+	}
+
+	private function validate() {
+		if (!$this->user->hasPermission('modify', $this->_route)) {
+			$this->error['warning'] = $this->language->get('error_permission');
+		}
+		if (!$this->error) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }

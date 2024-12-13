@@ -22,7 +22,7 @@ class Custom_template {
 	
 	public function getRouteData($route) {
 		if (!isset($this->custom_template_data[$route])) {
-			$custom_template_data = $this->db->query("SELECT `route`, `data` FROM `" . DB_PREFIX . "custom_template` WHERE `route` = '" . $this->db->escape($route) . "'");
+			$custom_template_data = $this->db->query("SELECT `route`, `data` FROM `" . DB_PREFIX . "custom_template` WHERE `route` = '" . $this->db->escape($route) . "' ORDER BY `sort_order`");
 			if ($custom_template_data->num_rows) {
 				foreach ($custom_template_data->rows as $value) {
 					parse_str(html_entity_decode($value['data']), $this->custom_template_data[$route][]);

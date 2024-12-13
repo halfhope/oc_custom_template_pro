@@ -1,12 +1,17 @@
-.ct-group-item .description .label{font-size:1em;padding:.1em .4em;font-weight:600}
 .ct-group{position:relative}
-.ct-group-header{width:calc(100% - .25em);line-height:3em}
+.ct-group .badge, .ct-group .btn{outline:none}
+.ct-group svg.octicon{fill:currentColor;vertical-align:text-bottom;color:#999;background:#fff;z-index:2;position:relative}
+.ct-group-header{width:calc(100% - .8em);line-height:3em}
 .ct-group-header h4{display:inline-block;margin-bottom:0;vertical-align:middle;font-weight:600}
 .ct-group-content{width:calc(100% - 1.9em);margin-left:1.9em}
-.ct-group-content::before{position:absolute;top:1.5em;bottom:0;left:6px;z-index:1;display:block;width:2px;content:"";background-color:#ccc}
-.ct-group-item:hover{background:#eee}
-.ct-group-item td{border:.5em solid transparent}
+.ct-group-content::before{position:absolute;top:1.5em;bottom:0;left:6px;z-index:1;display:block;width:2px;content:"";background-color:#999}
+.ct-group-item:hover{background:#f6f6f6}
+.ct-group-item td{padding:.5em}
 .ct-group-item .description{padding:0 .5em;font-size:12px;line-height:1.8em}
+.ct-group-item .description .label{font-size:1em;padding:.1em .4em;font-weight:600}
+.ct-group-item .sort-handle{color:#777}
+.ct-group-item .sort-handle:hover{cursor:grab}
+.ct-group-item.handle-active{background:#dedede;outline:1px dashed #999}
 #mmct-modal .modal-body{padding:0px}
 #mmct-modal .show_more{padding:8px;border-radius:0;border:0;-webkit-box-shadow:inset 0 1px 1px #ddd;box-shadow:inset 0 1px 1px #ddd;font-size:14px}
 #mmct-modal .show_more:hover{color:#444;background:#dcdcdc}
@@ -19,16 +24,14 @@
 #mmct-modal .input-group{display:flex}
 #mmct-modal .input-group-addon{width:auto}
 #mmct-modal .input-group-addon+.form-control:not(:last-child){border-right:0}
+#mmct-modal .input-group-sm .form-control, #mmct-modal .form-group-sm .form-control{height:28px!important}
 #mmct-modal select.form-control:first-child+.input-group-addon{border-left:0}
 #mmct-modal .form-control+.input-group-addon{border-right:0}
 #mmct-modal .well-sm{padding:5px;margin-bottom:10px}
 #mmct-modal .more_hidden{display:none}
 #mmct-modal .fstw10{min-width:10em;max-width:10em}
 #mmct-modal .modal-backdrop{position:fixed}
+#mmct-modal .sticky-footer{position:sticky;position:-webkit-sticky;z-index:2;bottom:0px;background:#fff;border-radius: 0 0 5px 5px}
+#mmct-modal .stripped-footer{padding:10px}
 #mmcr-modal .control-label{padding-top:0}
-#content .badge,#content .btn{outline:none}
-.sticky-footer{position:sticky;position:-webkit-sticky;z-index:2;bottom:0px;background:#fff;border-radius: 0 0 5px 5px}
-.stripped-footer{padding:10px}
-.has-error .input-group-btn .btn{border-color:#f56b6b}
-svg.octicon{fill:currentColor;vertical-align:text-bottom;color:#ccc;background:#fff;z-index:2;position:relative}
-.input-group-sm .form-control {height:28px!important}
+.has-error .input-group-btn .btn {border-color:#f56b6b}
