@@ -7,7 +7,7 @@ class ControllerExtensionModuleCustomTemplate extends Controller {
 
 	public 	$_route 		= 'extension/module/custom_template';
 	public 	$_model 		= 'model_extension_module_custom_template';
-	private $_version 		= '1.2';
+	private $_version 		= '1.2.0.1';
 	private $_name 			= 'Custom templates Pro';
 
 	private $error = [];
