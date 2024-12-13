@@ -1,4 +1,8 @@
 <?php
+/**
+ * @author Shashakhmetov Talgat <talgatks@gmail.com>
+ */
+
 class ControllerExtensionModuleCustomTemplate extends Controller {
 
 	public 	$_route 	= 'extension/module/custom_template';

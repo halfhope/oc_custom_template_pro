@@ -4,13 +4,14 @@
  */
 
 class ControllerExtensionModuleCustomTemplate extends Controller {
-	private $error = [];
-	private $modified_files;
 
-	private $_version 		= '1.1';
-	private $_name 			= 'Custom templates Pro';
 	public 	$_route 		= 'extension/module/custom_template';
 	public 	$_model 		= 'model_extension_module_custom_template';
+	private $_version 		= '1.2';
+	private $_name 			= 'Custom templates Pro';
+
+	private $error = [];
+	private $modified_files;
 
 	public function install() {
 		$this->load->model($this->_route);
@@ -46,6 +47,7 @@ class ControllerExtensionModuleCustomTemplate extends Controller {
 		$this->document->setTitle($this->language->get('heading_title'));
 		
 		$data['heading_title'] = $this->language->get('heading_title');
+		$data['version'] = $this->_version;
 
 		$this->document->addScript('view/javascript/custom_template.js?' . $this->_version);
 		$this->document->addStyle('view/stylesheet/custom_template.css?' . $this->_version);
@@ -71,7 +73,7 @@ class ControllerExtensionModuleCustomTemplate extends Controller {
 				$events[$value['route']] = [
 					'code' 		=> 'ctm_' . substr(md5(http_build_query($value)), 4),
 					'trigger'	=> 'catalog/view/' . $value['route'] . '/before',
-					'action'	=> $this->_event . '/filter'
+					'action'	=> '/filter'
 				];
 			}
 
@@ -644,11 +646,11 @@ class ControllerExtensionModuleCustomTemplate extends Controller {
 									if (isset($this->modified_files[$short_filename])) {
 										$this->modified_files[$short_filename]['content'][] = $name . ' [' . $file_line_num . ']';
 									} else {
-										$this->modified_files[$short_filename] = array(
+										$this->modified_files[$short_filename] = [
 											'filename' => $short_filename,
 											'content' => [$name . ' [' . $file_line_num . ']'],
 											'title' => $this->language->get('text_found_mods')
-										);
+										];
 									}
 								}
 							}
