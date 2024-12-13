@@ -73,61 +73,62 @@ var editModuleLayout = function(module_row) {
 			module_row: module_row,
 			route: $('#ct-row-' + module_row).find('input[type=hidden][name*=route]').val(),
 			custom_template: $('#ct-row-' + module_row).find('input[type=hidden][name*=value]').val()
+		},
+		success: function(response) {
+			$('#fmct').html(response);
+			$('#fmct .form-group.more_hidden').detach().appendTo('#fmct');
+			$('#mmct-modal #type').on('change load', function(event) {
+				switch (parseInt($(this).val())) {
+					case 1:
+						$('.sproducts').show();
+						$('.scategories, .sinformations, .smanufacturers').hide();
+						break;
+					case 2:
+						$('.scategories').show();
+						$('.sproducts, .sinformations, .smanufacturers').hide();
+						break;
+					case 3:
+						$('.smanufacturers').show();
+						$('.sproducts, .scategories, .sinformations').hide();
+						break;
+					case 4:
+						$('.sinformations').show();
+						$('.sproducts, .scategories, .smanufacturers').hide();
+						break;
+				}
+			});
+			$('#fmct #type').trigger('change');
+			$('#fmct input[name=\'products_search\']').autocomplete({
+				source: function(request, response) {
+					$.ajax({
+						url: ct_data.links.product_autocomplete + '&term=' + encodeURIComponent(request),
+						dataType: 'json',
+						success: function(json) {
+							response($.map(json.results, function(item) {
+								return {
+									label: item['text'],
+									value: item['id']
+								}
+							}));
+						}
+					});
+				},
+				select: function(item) {
+					$('#fmct input[name=\'products_search\']').val('');
+					$('#fmct #product_id' + item['value']).remove();
+					$('#fmct #product_id').append('<div id="product_id' + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="product_id[]" value="' + item['value'] + '" /></div>');
+					$('#fmct #product_id #product_id' + item['value']).click()
+				}
+			});
+			$('#fmct #product_id').delegate('.fa-minus-circle', 'click', function() {
+				$(this).parent().remove();
+			});
+			$('#fmct input[name=template]').on('keydown', function(event) {
+				if (event.keyCode == 10 || event.keyCode == 13) {
+					$('#mmct-modal button.save').trigger('click');
+				}
+			});
 		}
-	}).success(function(response) {
-		$('#fmct').html(response);
-		$('#fmct .form-group.more_hidden').detach().appendTo('#fmct');
-		$('#mmct-modal #type').on('change load', function(event) {
-			switch (parseInt($(this).val())) {
-				case 1:
-					$('.sproducts').show();
-					$('.scategories, .sinformations, .smanufacturers').hide();
-					break;
-				case 2:
-					$('.scategories').show();
-					$('.sproducts, .sinformations, .smanufacturers').hide();
-					break;
-				case 3:
-					$('.smanufacturers').show();
-					$('.sproducts, .scategories, .sinformations').hide();
-					break;
-				case 4:
-					$('.sinformations').show();
-					$('.sproducts, .scategories, .smanufacturers').hide();
-					break;
-			}
-		});
-		$('#fmct #type').trigger('change');
-		$('#fmct input[name=\'products_search\']').autocomplete({
-			source: function(request, response) {
-				$.ajax({
-					url: ct_data.links.product_autocomplete + '&term=' + encodeURIComponent(request),
-					dataType: 'json',
-					success: function(json) {
-						response($.map(json.results, function(item) {
-							return {
-								label: item['text'],
-								value: item['id']
-							}
-						}));
-					}
-				});
-			},
-			select: function(item) {
-				$('#fmct input[name=\'products_search\']').val('');
-				$('#fmct #product_id' + item['value']).remove();
-				$('#fmct #product_id').append('<div id="product_id' + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="product_id[]" value="' + item['value'] + '" /></div>');
-				$('#fmct #product_id #product_id' + item['value']).click()
-			}
-		});
-		$('#fmct #product_id').delegate('.fa-minus-circle', 'click', function() {
-			$(this).parent().remove();
-		});
-		$('#fmct input[name=template]').on('keydown', function(event) {
-			if (event.keyCode == 10 || event.keyCode == 13) {
-				$('#mmct-modal button.save').trigger('click');
-			}
-		});
 	});
 }
 
