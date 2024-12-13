@@ -91,7 +91,7 @@
 		<?php } ?>
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h3 class="panel-title"><i class="fa fa-list"></i> <?php echo $text_list; ?></h3>
+				<h3 class="panel-title"><i class="fa fa-list"></i> <?php echo $text_list; ?></h3><h3 class="panel-title pull-right">v<?php echo $version ?></h3>
 			</div>
 			<div class="panel-body">
 				<form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="fmcc" class="form-horizontal">
