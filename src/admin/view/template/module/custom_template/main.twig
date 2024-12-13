@@ -1,0 +1,128 @@
+{{ header }}{{ column_left }}
+<div id="content">
+	<div class="page-header">
+		<div class="container-fluid">
+			<div class="float-end">
+				<button data-bs-toggle="tooltip" title="{{ button_add }}" class="btn btn-success add" data-route=""><i class="fa fa-plus"></i></button>
+				<button type="submit" form="fmcc" data-bs-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+				<a href="{{ cancel }}" data-bs-toggle="tooltip" title="{{ button_back }}" class="btn btn-light"><i class="fas fa-reply"></i></a></div>
+			<h1>{{ heading_title }}</h1>
+			<ol class="breadcrumb">
+				{% for breadcrumb in breadcrumbs %}
+					<li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+				{% endfor %}
+			</ol>
+		</div>
+	</div>
+
+	<div class="container-fluid">
+		<div class="panel panel-default">
+			<div class="card">
+			<div class="card-header"><i class="fas fa-pencil-alt"></i> {{ text_list }}</div>
+			<div class="card-body">
+				<form action="{{ action }}" method="post" enctype="multipart/form-data" data-oc-toggle="ajax" id="fmcc" class="form-horizontal">
+					{% set module_row = 0 %}
+					{% for group_id, group_data in custom_template %}
+						<div class="ct-group" data-route="{{ group_id }}">
+							<div class="ct-group-header">
+								<h5><svg aria-hidden="true" class="octicon" height="16" version="1.1" viewBox="0 0 14 16" width="14"><path d="M10.86 7c-.45-1.72-2-3-3.86-3-1.86 0-3.41 1.28-3.86 3H0v2h3.14c.45 1.72 2 3 3.86 3 1.86 0 3.41-1.28 3.86-3H14V7h-3.14zM7 10.2c-1.22 0-2.2-.98-2.2-2.2 0-1.22.98-2.2 2.2-2.2 1.22 0 2.2.98 2.2 2.2 0 1.22-.98 2.2-2.2 2.2z"></path></svg>
+								&nbsp;{{ group_id }}
+								</h5>
+								<div class="float-end">
+									<button data-bs-toggle="tooltip" title="{{ button_add }}" class="btn btn-success btn-sm add" data-route="{{ group_id }}"><i class="fa fa-plus"></i></button>
+								</div>
+							</div>
+							<table class="ct-group-content">
+								<tbody>
+								{% set sort_order = 1 %}
+								{% for item_id, item_data in group_data['items'] %}
+									<tr class="ct-group-item" id="ct-row-{{ module_row }}" data-module-row="{{ module_row }}">
+										<td width="auto" class="description">
+										<span class="btn-sm sort-handle"><i class="fa fa-arrows-alt-v"></i></span>{{ item_data['description'] }}
+										</td>
+										<td width="80">
+											<button data-bs-toggle="tooltip" class="btn btn-primary btn-sm edit" title="{{ text_edit }}" data-module-row="{{ module_row }}"><i class="fa fa-pencil-alt"></i></button>
+											<button data-bs-toggle="tooltip" class="btn btn-danger btn-sm remove" title="{{ button_remove }}"><i class="fa fa-trash"></i></button>
+											<input type="hidden" name="custom_template[{{ module_row }}][value]" value="{{ item_data['value'] }}">
+											<input type="hidden" name="custom_template[{{ module_row }}][route]" value="{{ group_id }}">
+											<input type="hidden" name="custom_template[{{ module_row }}][sort_order]" value="{{ sort_order }}">
+										</td>
+									</tr>
+								{% set sort_order = sort_order + 1 %}
+								{% set module_row = module_row + 1 %}
+								{% endfor %}
+								</tbody>
+							</table>
+						</div>
+					{% endfor %}
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" tabindex="-1" role="dialog" id="mmct-modal" aria-hidden="true">
+		<div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">{{ text_form_title }}</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ text_form_close }}"></button>
+			</div>
+			<div class="modal-body">
+			<form action="" method="post" enctype="multipart/form-data" id="fmct" class="form-horizontal">
+				<center><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></center> 
+			</form>
+			</div>
+			<div class="modal-footer stripped-footer sticky-footer">
+				<button type="button" class="btn btn-sm btn-secondary clear">{{ text_form_clear }}</button>
+				<button type="button" class="btn btn-sm btn-primary save">{{ text_form_save }}</button>
+			</div>
+		</div>
+		</div>
+	</div>
+
+	<div class="modal fade" tabindex="-1" role="dialog" id="mmcr-modal" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">{{ text_form_layout_title }}</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ text_form_close }}"></button>
+			</div>
+			<div class="modal-body">
+			<form action="" method="post" enctype="multipart/form-data" id="fmcr" class="form-horizontal">
+			
+				<div class="row form-group">
+					<label for="route" class="col-sm-2 control-label"><span data-bs-toggle="tooltip" data-html="true" title="{{ entry_form_template_help }}">{{ entry_form_template }}</span></label>
+					<div class="col-sm-10">
+						<div class="input-group">
+							<button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">{{ text_template_dropdown }}<i class="fas fa-caret-down fa-fw"></i></button>
+							<ul class="dropdown-menu" id="known-routes">
+								<li><a href="#" class="dropdown-item" data-route="common/home">{{ route_preset_1 }}</a></li>
+								<li><a href="#" class="dropdown-item" data-route="product/category">{{ route_preset_2 }}</a></li>
+								<li><a href="#" class="dropdown-item" data-route="product/special">{{ route_preset_3 }}</a></li>
+								<li><a href="#" class="dropdown-item" data-route="product/search">{{ route_preset_4 }}</a></li>
+								<li><a href="#" class="dropdown-item" data-route="product/product">{{ route_preset_5 }}</a></li>
+								<li><a href="#" class="dropdown-item" data-route="product/manufacturer">{{ route_preset_6 }}</a></li>
+								<li><a href="#" class="dropdown-item" data-route="product/manufacturer_info">{{ route_preset_7 }}</a></li>
+								<li><a href="#" class="dropdown-item" data-route="information/information">{{ route_preset_8 }}</a></li>
+							</ul>
+							<input type="text" class="form-control" name="route" id="route" placeholder="{{ text_template_placeholder }}">
+						</div>
+					</div>
+				</div>
+
+			</form>
+			</div>
+			<div class="modal-footer stripped-footer">
+				<button type="button" class="btn btn-secondary cancel">{{ button_cancel }}</button>
+				<button type="button" class="btn btn-primary add">{{ button_add }}</button>
+			</div>
+		</div>
+		</div>
+	</div>
+
+</div>
+<script>
+var ct_data = {{ ct_data }};
+var module_row = {{ module_row }};
+</script>
+{{ footer }}
