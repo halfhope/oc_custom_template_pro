@@ -8,7 +8,7 @@ class CustomTemplate extends \Opencart\System\Engine\Controller {
 	
 	public 	$_route 		= 'extension/custom_template_pro/module/custom_template';
 	public 	$_model 		= 'model_extension_custom_template_pro_module_custom_template';
-	private $_version 		= '1.2';
+	private $_version 		= '1.2.0.1';
 	private $_name 			= 'Custom templates Pro';
 
 	private $error = [];
